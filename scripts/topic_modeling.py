@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
@@ -42,6 +44,14 @@ df["dominant_topic"] = np.argmax(topic_distributions, axis=1)  # 找出每个视
 # Calculate the average subscription growth per topic
 df["sub_growth_rate"] = df["subscribers"] / df["views"]  # 订阅增长率
 topic_growth = df.groupby("dominant_topic")["sub_growth_rate"].mean().reset_index()
+
+plt.figure(figsize=(10,6))
+sns.barplot(x=topic_growth["dominant_topic"], y=topic_growth["sub_growth_rate"], palette="Blues_d")
+plt.title("Different Shorts topics vs. subscription growth rate")
+plt.xlabel("Shorts Topic")
+plt.ylabel("Average subscription growth rate")
+plt.xticks(rotation=45)
+plt.show()
 
 # Output the subscription growth rate for each topic
 print("Average subscription growth rate per Shorts topic：")
