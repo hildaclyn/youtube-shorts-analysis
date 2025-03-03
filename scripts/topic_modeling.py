@@ -23,7 +23,7 @@ print("Top 10 most common keywords:", feature_names[:10])
 
 # Vectorize text (LDA requires CountVectorizer instead of TF-IDF)
 vectorizer = CountVectorizer(stop_words="english", max_features=5000)
-X = vectorizer.fit_transform(df["title_translated"])
+X = vectorizer.fit_transform(df_analysis["title_translated"])
 
 # Train LDA model
 lda_model = LatentDirichletAllocation(n_components=5, random_state=42)  # 5 个主题
