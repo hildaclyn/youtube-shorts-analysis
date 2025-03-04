@@ -22,7 +22,7 @@ The goal of this project is to:
 
 - Five top topics：
   - Gaming & School Vlogs 🎮📚
-  - School & Teacher Life 📖🏫
+  - School & Teacher Life 📖🏫 (🌟🌟)
   - Comedy & Trending Entertainment 🤣📺
   - Classic Cartoons & Viral Clips 🎞️🐭
   - School & Fun Challenges 🏆😆
