@@ -4,9 +4,6 @@ matplotlib
 seaborn
 scikit-learn
 scipy
-google-auth
-google-auth-oauthlib
-google-auth-httplib2
 googleapiclient
 langdetect
 deep-translator
