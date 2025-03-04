@@ -10,7 +10,7 @@ future_dates = data["future_dates"]
 future_hybrid_predictions = data["future_hybrid_predictions"]
 
 # Handle NaN values
-print("🔍 Check the number of NaN values:", np.isnan(future_hybrid_predictions).sum())
+print("Check the number of NaN values:", np.isnan(future_hybrid_predictions).sum())
 future_hybrid_predictions = np.nan_to_num(future_hybrid_predictions, nan=np.nanmedian(future_hybrid_predictions))
 print("The number of NaN values ​​after handling:", np.isnan(future_hybrid_predictions).sum())
 
@@ -33,3 +33,6 @@ plt.ylabel("Subscribers")
 plt.title("Future Growth Trend Analysis")
 plt.legend()
 plt.show()
+
+""" Highest growth point: 2025-03-09 13:57:33, estimated number of subscriptions: 11426401.652694423 """
+""" Lowest growth point: 2025-05-06 13:57:33, estimated number of subscriptions: 9858745.501286224 """
