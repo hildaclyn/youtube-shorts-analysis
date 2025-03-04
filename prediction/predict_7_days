@@ -1,0 +1,57 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
+from common import load_data, train_xgb, train_lstm, create_lstm_dataset
+
+# Load data
+file_path = "youtube_shorts_translated.csv"
+df_growth = load_data(file_path)
+
+# Select features
+features = ["year", "month", "day", "weekday"] + [f"lag_{lag}" for lag in range(1, 8)] + ["rolling_mean_7"]
+X = df_growth[features]
+y = df_growth["y"]
+
+# Split into training and test sets
+X_train, X_test, y_train, y_test = X[:-7], X[-7:], y[:-7], y[-7:]
+
+# Train XGBoost
+xgb_model = train_xgb(X_train, y_train)
+xgb_predictions = xgb_model.predict(X_test)
+
+# Normalize data for LSTM
+scaler = MinMaxScaler()
+scaled_data = scaler.fit_transform(df_growth["y"].values.reshape(-1, 1))
+
+X_lstm, y_lstm = create_lstm_dataset(scaled_data, time_steps=60)
+X_train_lstm, X_test_lstm = X_lstm[:-7], X_lstm[-7:]
+y_train_lstm, y_test_lstm = y_lstm[:-7], y_lstm[-7:]
+
+#Train LSTM
+lstm_model = train_lstm(X_train_lstm, y_train_lstm)
+lstm_predictions = lstm_model.predict(X_test_lstm)
+
+# Combined Hybrid predictions
+alpha = 0.75
+hybrid_predictions = alpha * xgb_predictions + (1 - alpha) * lstm_predictions.flatten()
+
+# Calculate error
+xgb_rmse = np.sqrt(mean_squared_error(y_test, xgb_predictions))
+lstm_rmse = np.sqrt(mean_squared_error(y_test, lstm_predictions))
+hybrid_rmse = np.sqrt(mean_squared_error(y_test, hybrid_predictions))
+
+print(f"XGBoost RMSE: {xgb_rmse}")
+print(f"LSTM RMSE: {lstm_rmse}")
+print(f"Hybrid RMSE: {hybrid_rmse}")
+
+# Draw prediction results
+plt.figure(figsize=(12, 6))
+plt.plot(df_growth["ds"].iloc[-7:], y_test, label="Actual", marker="o")
+plt.plot(df_growth["ds"].iloc[-7:], hybrid_predictions, label="Hybrid Prediction", linestyle="dashed")
+plt.xlabel("Date")
+plt.ylabel("Subscribers")
+plt.title("7-Day Prediction")
+plt.legend()
+plt.show()
