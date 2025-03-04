@@ -18,4 +18,14 @@ The goal of this project is to:
 - **A/B Testing:** Statistical hypothesis testing to compare subscriber growth across different content types.
 - **Visualization:** Charts and reports to showcase key findings.
 
+## 🎯 Result
+
+- Five top topics：
+  - Gaming & School Vlogs 🎮📚
+  - School & Teacher Life 📖🏫
+  - Comedy & Trending Entertainment 🤣📺
+  - Classic Cartoons & Viral Clips 🎞️🐭
+  - School & Fun Challenges 🏆😆
+ 
+
 
